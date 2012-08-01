@@ -76,8 +76,20 @@
                         },
                         change: function(e, ui) {
                             updateUiObject(ui);
-                            if ($.isFunction(settings.onChange)){
-                                return settings.onChange(e, ui);
+                            if ($.isFunction(settings.change)){
+                                return settings.change(e, ui);
+                            }
+                        },
+                        start: function(e, ui){
+                            updateUiObject(ui);
+                            if ($.isFunction(settings.start)){
+                                return settings.start(e, ui);
+                            }
+                        },
+                        stop: function(e, ui){
+                            updateUiObject(ui);
+                            if ($.isFunction(settings.stop)){
+                                return settings.stop(e, ui);
                             }
                         }
                     });
@@ -98,9 +110,9 @@
             useMilitary: false,
             create: function(e,ui){},
             slide: function(e, ui){},
-            onChange: function(e, ui){
-                // allow passthrough
-            }
+            change: function(e, ui){},
+            start: function(e,ui){},
+            stop: function(e,ui){}
         },
         numHours = settings.numHours,
         numPositionsInHour = 60 / settings.stepMinutes,

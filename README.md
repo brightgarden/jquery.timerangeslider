@@ -10,7 +10,7 @@ Example:
     <script type="text">
            $(".time-range-slider").timerangeslider({
                offsetHours: 5,
-               onChange: function(e, ui) {
+               change: function(e, ui) {
                    var displayText = ui.displayValues[ 0 ] + " - " +  ui.displayValues[ 1 ];
                    $(e.target).next("span").find(".input-impostor").html( displayText );
                },
@@ -18,7 +18,7 @@ Example:
                    var displayText = ui.displayValues[ 0 ] + " - " +  ui.displayValues[ 1 ];
                    $(e.target).next("span").find(".input-impostor").html( displayText );
                },
-               change: function(e, ui) {
+               create: function(e, ui) {
                    var displayText = ui.displayValues[ 0 ] + " - " +  ui.displayValues[ 1 ];
                    $(e.target).next("span").find(".input-impostor").html( displayText );
                }
@@ -38,9 +38,13 @@ Options (defaults):
     initialStartValue: "10:00", // in military time
     initialEndValue: "22:00", // in military time
     useMilitary: false,
-    slide: function(e, ui){
-       // allow passthrough
-    }
+
+	// the following are functions to pass through events to the underlying slider plugin
+    slide: function(e, ui){},
+	change: function(e, ui){},
+	create: function(e, ui){},
+	start: function(e, ui){},
+	stop: function(e, ui){}
 
 Note on future development:
 --------------
