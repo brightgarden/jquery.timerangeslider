@@ -17,6 +17,10 @@ Example:
                slide: function(e, ui) {
                    var displayText = ui.displayValues[ 0 ] + " - " +  ui.displayValues[ 1 ];
                    $(e.target).next("span").find(".input-impostor").html( displayText );
+               },
+               change: function(e, ui) {
+                   var displayText = ui.displayValues[ 0 ] + " - " +  ui.displayValues[ 1 ];
+                   $(e.target).next("span").find(".input-impostor").html( displayText );
                }
             });
     </script>

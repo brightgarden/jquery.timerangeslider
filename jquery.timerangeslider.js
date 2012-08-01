@@ -45,19 +45,29 @@
                 });
             },
             init : function(options){
+                var startPosition, endPosition;
                 settings = $.extend({}, settings, options);
                 settings.offsetHours = Math.abs(settings.offsetHours);
                 numPositionsInHour = 60 / settings.stepMinutes;
                 numPositions = numHours * numPositionsInHour - ((settings.canSelectLastMinute) ? 0 : 1);
+                startPosition = getPositionFromTimeDisplay(settings.initialStartValue);
+                endPosition = getPositionFromTimeDisplay(settings.initialEndValue);
                 return this.each(function(){
                     $(this).slider({
                         range: true,
                         values: [
-                            getPositionFromTimeDisplay(settings.initialStartValue),
-                            getPositionFromTimeDisplay(settings.initialEndValue)
+                            startPosition,
+                            endPosition
                         ],
                         min: 0,
                         max: numPositions,
+                        create: function(e, ui){
+                            ui.values = [startPosition, endPosition];
+                            updateUiObject(ui);
+                            if ($.isFunction(settings.create)){
+                                return settings.create(e, ui);
+                            }
+                        },
                         slide: function(e, ui){
                             updateUiObject(ui);
                             if ($.isFunction(settings.slide)){
@@ -86,6 +96,7 @@
             initialStartValue: "10:00", // in military time
             initialEndValue: "22:00", // in military time
             useMilitary: false,
+            create: function(e,ui){},
             slide: function(e, ui){},
             onChange: function(e, ui){
                 // allow passthrough
@@ -144,10 +155,11 @@
                 hour = parseInt(dataArray[0]),
                 minutes = parseInt(dataArray[1]),
                 hourAdjustedForOffset = hour - settings.offsetHours,
-                positionInHour = Math.floor(minutes / 60 / numPositionsInHour);
+                positionInHour = Math.floor(numPositionsInHour * (minutes / 60));
             if (hourAdjustedForOffset < 0){
                 hourAdjustedForOffset += 24;
             }
+
             return hourAdjustedForOffset * numPositionsInHour + positionInHour;
         };
 
