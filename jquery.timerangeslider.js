@@ -22,9 +22,9 @@
                     $(this).slider("enable");
                 });
             },
-            option : function(param1, param2){
+            option : function(optionName, value){
                 return this.each(function(){
-                    $(this).slider("option", param1, param2);
+                    $(this).slider("option", optionName, value);
                 });
             },
             widget : function(){
@@ -33,16 +33,28 @@
                 });
             },
             value : function(militarytimedisplay){
-                var value = getPositionFromTimeDisplay(militarytimedisplay);
-                return this.each(function(){
-                    $(this).slider("value", value);
-                });
+                // this is essentially moot for this slider
+                var value = undefined;
+                if (militarytimedisplay){
+                    value = getPositionFromTimeDisplay(militarytimedisplay);
+                    return this.each(function(){
+                        return $(this).slider("value", value);
+                    });
+                }
+                return $(this).slider("value");
             },
             values : function(index, militarytimedisplay){
-                var value = getPositionFromTimeDisplay(militarytimedisplay);
-                return this.each(function(){
-                    $(this).slider("values", index, value);
-                });
+                var value = undefined;
+                if (militarytimedisplay){
+                    value = getPositionFromTimeDisplay(militarytimedisplay);
+                    return this.each(function(){
+                        return $(this).slider("values", index, value);
+                    });
+                }
+                var positions = $(this).slider("values"),
+                    startValueObject = getTimeDisplay(positions[0]),
+                    endValueObject = getTimeDisplay(positions[1]);
+                return [startValueObject.military, endValueObject.military];
             },
             init : function(options){
                 var startPosition, endPosition;
