@@ -9,10 +9,15 @@ Example:
     <input type="text" disabled id="edit-time-range" value="10:00 AM - 10:00 PM">
     <script type="text">
            $(".time-range-slider").timerangeslider({
-                slide: function(e, ui) {
-                    var displayText = ui.timeValues[ 0 ] + " - " +  ui.timeValues[ 1 ];
-                    $(e.target).next("span").find("input").val( displayText );
-                }
+               offsetHours: 5,
+               onChange: function(e, ui) {
+                   var displayText = ui.displayValues[ 0 ] + " - " +  ui.displayValues[ 1 ];
+                   $(e.target).next("span").find(".input-impostor").html( displayText );
+               },
+               slide: function(e, ui) {
+                   var displayText = ui.displayValues[ 0 ] + " - " +  ui.displayValues[ 1 ];
+                   $(e.target).next("span").find(".input-impostor").html( displayText );
+               }
             });
     </script>
 
