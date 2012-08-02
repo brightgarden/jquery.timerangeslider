@@ -106,6 +106,9 @@
                         }
                     });
                 });
+            },
+            convert: function(militaryTimeString){
+                return convertMilitaryToStandard(militaryTimeString);
             }
         },
         settings = settings || {
@@ -134,16 +137,24 @@
             return prePadded.substr(prePadded.length - 2);
         },
         getTimeDisplay = function(position){
-            var ampm = settings.anteMeridien,
-                positionOfHour = Math.floor((position / numPositions) * numHours),
+            var positionOfHour = Math.floor((position / numPositions) * numHours),
                 positionOfMinute = position - (positionOfHour *numPositionsInHour),
                 militaryHour = (positionOfHour + settings.offsetHours) % 24,
-                hour = militaryHour % 12,
                 minute = padNumber(positionOfMinute * settings.stepMinutes),
                 result = {
                     formatted: "",
-                    military: ""
+                    military: padNumber(militaryHour) + ":" + minute
                 };
+
+            result.formatted = convertMilitaryToStandard(result.military);
+            return result;
+        },
+        convertMilitaryToStandard = function(militaryTime){
+            var ampm = settings.anteMeridien,
+                timeParts = militaryTime.split(":"),
+                militaryHour = timeParts[0],
+                minute = timeParts[1],
+                hour = militaryHour % 12;
 
             if (hour === 0){
                 hour = 12;
@@ -159,9 +170,7 @@
                     ampm = settings.noon;
                 }
             }
-            result.formatted = hour + ":" + minute + " " + ampm;
-            result.military = padNumber(militaryHour) + ":" + minute;
-            return result;
+            return hour + ":" + minute + " " + ampm;
         },
         updateUiObject = function(ui){
             var startTime = getTimeDisplay(ui.values[0]),
