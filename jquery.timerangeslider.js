@@ -2,6 +2,8 @@
  * Wrapper to make time-range slider easy to do.
  *
  * Requires jquery ui slider
+ *
+ * Doesn't manage instances separately--all settings apply to all. Not gonna fix this as it would make more sense to rewrite properly
  */
 
 (function($, undefined){
@@ -116,10 +118,10 @@
             stepMinutes: 30, // 30 minute default
             offsetHours: 0, // start at midnight; 6 = start at 6AM (always a positive number)
             canSelectLastMinute: true, // e.g., can select 12:00 midnight
-            anteMeridien: "AM",
-            postMeridien: "PM",
-            noon: "Noon", // text to use to disambiguate 12:00 noon
-            midnight: "Midnight", // text to use to disambiguate 12:00 midnight
+            anteMeridien: " AM",
+            postMeridien: " PM",
+            noon: " Noon", // text to use to disambiguate 12:00 noon
+            midnight: " Midnight", // text to use to disambiguate 12:00 midnight
             initialStartValue: "10:00", // in military time
             initialEndValue: "22:00", // in military time
             useMilitary: false,
@@ -156,21 +158,21 @@
                 minute = timeParts[1],
                 hour = militaryHour % 12;
 
-            if (hour === 0){
+            if (hour == 0){
                 hour = 12;
             }
 
-            if (militaryHour === 0){
-                if (minute === "00") {
+            if (militaryHour == 0){
+                if (minute == "00") {
                     ampm = settings.midnight;
                 }
             } else if (militaryHour > 11){
                 ampm = settings.postMeridien;
-                if (militaryHour === 12 && minute === "00"){
+                if (militaryHour == 12 && minute == "00"){
                     ampm = settings.noon;
                 }
             }
-            return hour + ":" + minute + " " + ampm;
+            return hour + ":" + minute + ampm;
         },
         updateUiObject = function(ui){
             var startTime = getTimeDisplay(ui.values[0]),

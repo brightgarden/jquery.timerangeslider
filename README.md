@@ -31,10 +31,10 @@ Options (defaults):
     stepMinutes: 30, // 30 minute default
     offsetHours: 0, // start at midnight; 6 = start at 6AM (always a positive number)
     canSelectLastMinute: true, // e.g., can select 12:00 midnight
-    anteMeridien: "AM",
-    postMeridien: "PM",
-    noon: "Noon", // text to use to disambiguate 12:00 noon
-    midnight: "Midnight", // text to use to disambiguate 12:00 midnight
+    anteMeridien: " AM",
+    postMeridien: " PM",
+    noon: " Noon", // text to use to disambiguate 12:00 noon
+    midnight: " Midnight", // text to use to disambiguate 12:00 midnight
     initialStartValue: "10:00", // in military time
     initialEndValue: "22:00", // in military time
     useMilitary: false,
