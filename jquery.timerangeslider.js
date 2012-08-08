@@ -187,14 +187,13 @@
         getPositionFromTimeDisplay = function(timeString){
             // timestring is expected to be in military time
             var dataArray = timeString.split(":"),
-                hour = parseInt(dataArray[0]),
-                minutes = parseInt(dataArray[1]),
+                hour = parseInt(dataArray[0], 10),
+                minutes = parseInt(dataArray[1], 10),
                 hourAdjustedForOffset = hour - settings.offsetHours,
                 positionInHour = Math.floor(numPositionsInHour * (minutes / 60));
             if (hourAdjustedForOffset < 0){
                 hourAdjustedForOffset += 24;
             }
-
             return hourAdjustedForOffset * numPositionsInHour + positionInHour;
         };
 
