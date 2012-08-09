@@ -117,7 +117,7 @@
             numHours: 24, // number of hours
             stepMinutes: 30, // 30 minute default
             offsetHours: 0, // start at midnight; 6 = start at 6AM (always a positive number)
-            canSelectLastMinute: true, // e.g., can select 12:00 midnight
+            canSelectLastMinute: false, // e.g., can select 12:00 midnight
             anteMeridien: " AM",
             postMeridien: " PM",
             noon: " Noon", // text to use to disambiguate 12:00 noon
@@ -133,14 +133,15 @@
         },
         numHours = settings.numHours,
         numPositionsInHour = 60 / settings.stepMinutes,
-        numPositions = numHours * numPositionsInHour - ((settings.canSelectLastMinute) ? 0 : 1),
+        numLogicalPositions = numHours * numPositionsInHour,
+        numPositions = numLogicalPositions - ((settings.canSelectLastMinute) ? 0 : 1),
         padNumber = function(number){
             var prePadded = "0" + number;
             return prePadded.substr(prePadded.length - 2);
         },
         getTimeDisplay = function(position){
-            var positionOfHour = Math.floor((position / numPositions) * numHours),
-                positionOfMinute = position - (positionOfHour *numPositionsInHour),
+            var positionOfHour = Math.floor((position / numLogicalPositions) * numHours),
+                positionOfMinute = position - (positionOfHour * numPositionsInHour),
                 militaryHour = (positionOfHour + settings.offsetHours) % 24,
                 minute = padNumber(positionOfMinute * settings.stepMinutes),
                 result = {
